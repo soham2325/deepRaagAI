@@ -1,8 +1,8 @@
 from selenium import webdriver
 import pandas as pd
 import time
-import logging
-logging.basicConfig(filename='YT_scraping_log.log',level=logging.DEBUG,format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s',datefmt='%Y-%m-%d %H:%M',)
+#import logging
+#logging.basicConfig(filename='YT_scraping_log.log',level=logging.DEBUG,format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s',datefmt='%Y-%m-%d %H:%M',)
 
 def prepare_dataframe(a,b,c,d):
     df = pd.DataFrame({'urls':c,'title':a,'details':b, 'channel':d})
@@ -41,13 +41,14 @@ def scrape_metadata_from_youtube(textToSearch='Ahir Bhairav', maxheight=15000):
     details_list = [i.get_attribute('aria-label') for i in user_data]
     url_list = [i.get_attribute('href') for i in user_data]
     title_list = [i.get_attribute('title') for i in user_data]
-    logging.debug(f'Search Key: {textToSearch}')
-    logging.debug('Total Time taken:{}s'.format(time.time() - t0))
-    logging.debug('No. of Records scraped: ', len(user_data))
+    #logging.debug(f'Search Key: {textToSearch}')
+    #logging.debug('Total Time taken:{}s'.format(time.time() - t0))
+    #logging.debug('No. of Records scraped: ', len(user_data))
     data = prepare_dataframe(title_list, details_list, url_list, channel_list)
+    data['search_key'] = textToSearch
     # [title_list, details_list, url_list, channel_list]
     return data
-
+"""
 #text = 'GMAT Sentence correction'
 query = ['raag yaman', 'raag malakauns']
 df = pd.DataFrame()
@@ -57,3 +58,7 @@ for text in query:
 
 #df = scrape_metadata_from_youtube(text,20000)
 df.to_csv('{}_youtube_scrape_metadata.csv'.format(text),index = False)
+
+"""
+ext = 'Raag Jog'
+df_temp = scrape_metadata_from_youtube(text,20000)
